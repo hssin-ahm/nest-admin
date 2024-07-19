@@ -25,4 +25,19 @@ constructor(
       password: hash
     });
   }
+
+  @Post("login")
+  async login(@Body("email") email: string,
+              @Body("passwword") password: string){
+    const user = await this.userService.findOne({email: email});
+    if(!user){
+      throw new NotFoundException("User Not Found");
+    }
+
+    if(!await bcrypt.compare(password, user.password)){
+      throw new BadRequestException("Invalid Credentials")
+    }
+
+    return user;
+  }
 }

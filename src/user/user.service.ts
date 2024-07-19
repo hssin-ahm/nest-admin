@@ -17,8 +17,8 @@ export class UserService {
     return this.userRepository.save(data);
   }
 
-  async findOne(condition): Promise<User>{
-    return this.userRepository.findOne(condition);
+  async findOne(condition: string): Promise<User>{
+    return this.userRepository.findOne({where: {email: condition}});
   }
 
 }

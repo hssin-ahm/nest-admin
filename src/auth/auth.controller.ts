@@ -54,6 +54,7 @@ constructor(
 
   @Get('user')
   async user(@Req() request: Request){
+    console.log(request.cookies);
     const cookie = request.cookies['jwt'];
     const data = await this.jwtService.verifyAsync(cookie);
     return data;

@@ -21,4 +21,8 @@ export class UserService {
     return this.userRepository.findOne({where: condition});
   }
 
+  async update(id: number, data): Promise<any>{
+    return this.userRepository.update(id, data);
+  }
+
 }

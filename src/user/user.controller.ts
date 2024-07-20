@@ -4,7 +4,7 @@ import {
     Controller,
     Get,
     Param,
-    Post,
+    Post, Put,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
@@ -25,10 +25,7 @@ export class UserController {
     async all(): Promise<User[]>{
         return await this.userService.all();
     }
-    @Get(':id')
-    async get(@Param('id') id: number){
-        return this.userService.findOne({id});
-    }
+
     @Post()
     async create(@Body() body: UserCreateDto): Promise<User>{
         const password = await bcrypt.hash('1234', 10);
@@ -40,4 +37,18 @@ export class UserController {
             password
         })
     }
+
+    @Get(':id')
+    async get(@Param('id') id: number){
+        return this.userService.findOne({id});
+    }
+
+    @Put(':id')
+    async update(
+        @Param('id') id: number,
+        @Body() body: UserCreateDto
+        ){
+        return this.userService.update(id, body);
+    }
+
 }

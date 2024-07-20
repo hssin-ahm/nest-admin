@@ -1,8 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Get,
+    Param,
+    Post,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './models/user.entity';
+import {UserCreateDto} from "./models/user.create.dto";
+import * as bcrypt from 'bcrypt';
+import {AuthGuard} from "../auth/auth.guard";
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(AuthGuard)
 export class UserController {
 
     constructor(private userService: UserService) {
@@ -10,5 +24,20 @@ export class UserController {
     @Get()
     async all(): Promise<User[]>{
         return await this.userService.all();
+    }
+    @Get(':id')
+    async get(@Param('id') id: number){
+        return this.userService.findOne({id});
+    }
+    @Post()
+    async create(@Body() body: UserCreateDto): Promise<User>{
+        const password = await bcrypt.hash('1234', 10);
+
+        return this.userService.create({
+            first_name: body.first_name,
+            last_name: body.last_name,
+            email: body.email,
+            password
+        })
     }
 }

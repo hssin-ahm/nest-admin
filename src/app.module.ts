@@ -12,8 +12,7 @@ import { CommonModule } from './common/common.module';
   imports: [
     UserModule,
     TypeOrmModule.forRoot(typeOrmConfig),
-    AuthModule,
-    CommonModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

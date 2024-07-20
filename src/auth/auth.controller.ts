@@ -1,9 +1,9 @@
-import {BadRequestException, Body, Controller, Get, NotFoundException, Post, Req, Res} from '@nestjs/common';
+import { Controller, Post, Get, Body, Res, Req, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './models/register.dto';
 import {JwtService} from "@nestjs/jwt";
-import {Request, Response} from "express";
 
 const saltOrRounds = 10;
 
@@ -31,31 +31,34 @@ constructor(
   }
 
   @Post("login")
-  async login(@Body("email") email: string,
-              @Body("password") password: string,
-              @Res({passthrough: true}) response: Response
-              ){
+  async login(
+      @Body("email") email: string,
+      @Body("password") password: string,
+      @Res({ passthrough: true }) response: Response
+  ) {
     const user = await this.userService.findOne(email);
-    if(!user){
+    if (!user) {
       throw new NotFoundException("User Not Found");
     }
 
-    if(!await bcrypt.compare(password, user.password)){
-      throw new BadRequestException("Invalid Credentials")
+    if (!await bcrypt.compare(password, user.password)) {
+      throw new BadRequestException("Invalid Credentials");
     }
-    const jwt = this.jwtService.signAsync({id: user.id})
 
+    const jwt = await this.jwtService.signAsync({ id: user.id });
 
-    response.cookie('jwt', jwt, {httpOnly:true});
+    response.cookie('jwt', jwt, { httpOnly: true, secure: true, sameSite: 'strict' });
 
     return user;
   }
 
-
   @Get('user')
-  async user(@Req() request: Request){
-    console.log(request.cookies);
+  async user(@Req() request: Request) {
     const cookie = request.cookies['jwt'];
+    if (!cookie) {
+      throw new BadRequestException("No JWT found");
+    }
+
     const data = await this.jwtService.verifyAsync(cookie);
     return data;
   }

@@ -35,7 +35,7 @@ constructor(
       @Body("password") password: string,
       @Res({ passthrough: true }) response: Response
   ) {
-    const user = await this.userService.findOne(email);
+    const user = await this.userService.findOne({email: email});
     if (!user) {
       throw new NotFoundException("User Not Found");
     }
@@ -61,7 +61,7 @@ constructor(
     }
 
     const data = await this.jwtService.verifyAsync(cookie);
-    return data;
+    return this.userService.findOne({id: data['id']});
   }
 
 }

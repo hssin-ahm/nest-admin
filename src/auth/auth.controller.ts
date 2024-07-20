@@ -29,7 +29,6 @@ constructor(
       password: hash
     });
   }
-
   @Post("login")
   async login(
       @Body("email") email: string,
@@ -54,6 +53,8 @@ constructor(
 
   @Get('user')
   async user(@Req() request: Request) {
+    console.log('Cookies:', request.cookies); // Logging cookies
+
     const cookie = request.cookies['jwt'];
     if (!cookie) {
       throw new BadRequestException("No JWT found");

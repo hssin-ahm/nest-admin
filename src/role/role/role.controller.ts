@@ -7,7 +7,7 @@ export class RoleController {
     constructor(private roleService: RoleService) {
     }
 
-    @Get
+    @Get()
     async all(){
         return this.roleService.all();
     }

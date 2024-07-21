@@ -4,7 +4,7 @@ import {
     Controller, Delete,
     Get,
     Param,
-    Post, Put,
+    Post, Put, Query,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
@@ -22,8 +22,8 @@ export class UserController {
     constructor(private userService: UserService) {
     }
     @Get()
-    async all(): Promise<User[]>{
-        return await this.userService.all();
+    async all(@Query('page') page: number = 1): Promise<User[]>{
+        return await this.userService.paginate(page);
     }
 
     @Post()

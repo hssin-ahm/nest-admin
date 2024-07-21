@@ -13,6 +13,7 @@ import { User } from './models/user.entity';
 import {UserCreateDto} from "./models/user.create.dto";
 import * as bcrypt from 'bcrypt';
 import {AuthGuard} from "../auth/auth.guard";
+import {RoleService} from "../role/role/role.service";
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,11 +31,12 @@ export class UserController {
     async create(@Body() body: UserCreateDto): Promise<User>{
         const password = await bcrypt.hash('1234', 10);
 
+        const {role_id, ...data} = body;
+
         return this.userService.create({
-            first_name: body.first_name,
-            last_name: body.last_name,
-            email: body.email,
-            password
+            ...data,
+            password,
+            role: {id: role_id}
         })
     }
 

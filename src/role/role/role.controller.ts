@@ -13,7 +13,7 @@ export class RoleController {
         return this.roleService.all();
     }
 
-    @Post
+    @Post()
     async create(@Body('name') name: string){
         return this.roleService.create({name})
     }

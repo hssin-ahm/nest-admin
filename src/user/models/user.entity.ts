@@ -1,8 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import {Exclude} from "class-transformer/types/decorators";
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 
   @PrimaryGeneratedColumn()
   id: number;

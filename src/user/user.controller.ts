@@ -13,7 +13,6 @@ import { User } from './models/user.entity';
 import {UserCreateDto} from "./models/user.create.dto";
 import * as bcrypt from 'bcrypt';
 import {AuthGuard} from "../auth/auth.guard";
-import {RoleService} from "../role/role/role.service";
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -50,7 +49,8 @@ export class UserController {
         @Param('id') id: number,
         @Body() body: UserCreateDto
         ){
-        await this.userService.update(id, body);
+        const {role_id, ...data} = body;
+        await this.userService.update(id, {...data, role:{id: role_id}});
         return this.userService.findOne({id});
     }
 

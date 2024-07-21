@@ -7,6 +7,7 @@ import { typeOrmConfig } from './typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import {RoleModule} from "./role/role/role.module";
+import {PermissionModule} from "./permission/permission/permission.module";
 
 
 @Module({
@@ -15,7 +16,8 @@ import {RoleModule} from "./role/role/role.module";
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     CommonModule,
-    RoleModule
+    RoleModule,
+    PermissionModule
   ],
   controllers: [AppController],
   providers: [AppService],

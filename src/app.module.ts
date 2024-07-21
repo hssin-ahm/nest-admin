@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
+import {RoleModule} from "./role/role/role.module";
 
 
 @Module({
@@ -14,6 +15,7 @@ import { CommonModule } from './common/common.module';
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     CommonModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],

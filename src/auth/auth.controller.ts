@@ -15,6 +15,7 @@ import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './models/register.dto';
 import {JwtService} from "@nestjs/jwt";
 import {AuthGuard} from "./auth.guard";
+import {AuthService} from "./auth.service";
 
 const saltOrRounds = 10;
 
@@ -23,7 +24,8 @@ const saltOrRounds = 10;
 export class AuthController {
 constructor(
   private userService: UserService,
-  private jwtService: JwtService
+  private jwtService: JwtService,
+  private authService: AuthService
 ) {
 }
   @Post('register')
@@ -67,15 +69,13 @@ constructor(
   @Get('user')
   @UseGuards(AuthGuard)
   async user(@Req() request: Request) {
-    console.log('Cookies:', request.cookies); // Logging cookies
 
-    const cookie = request.cookies['jwt'];
-    if (!cookie) {
-      throw new BadRequestException("No JWT found");
+    const userId = await this.authService.userId(request);
+    if (!userId) {
+      throw new BadRequestException("No User found");
     }
 
-    const data = await this.jwtService.verifyAsync(cookie);
-    return this.userService.findOne({id: data['id']});
+    return this.userService.findOne({id: userId});
   }
 
   @Post('logout')

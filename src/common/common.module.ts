@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import {JwtModule} from "@nestjs/jwt";
+import { AbstractService } from './abstract.service';
 
 @Module({
     imports:[
@@ -10,5 +11,6 @@ import {JwtModule} from "@nestjs/jwt";
         })
     ],
     exports: [JwtModule],
+    providers: [AbstractService],
 })
 export class CommonModule {}

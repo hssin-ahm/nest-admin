@@ -34,8 +34,8 @@ export abstract class AbstractService {
         return this.repository.save(data);
     }
 
-    async findOne(condition): Promise<any>{
-        return this.repository.findOne({where: condition});
+    async findOne(condition, relations = []): Promise<any>{
+        return this.repository.findOne({where: condition, relations: relations});
     }
 
     async update(id: number, data): Promise<any>{

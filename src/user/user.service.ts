@@ -13,7 +13,7 @@ export class UserService extends AbstractService{
 
 
   async paginate(page = 1): Promise<PaginationResult>{
-    const {data, meta} = super.paginate(page);
+    const {data, meta} = await super.paginate(page);
     return {
       data: data.map(user =>{
         const {password, ...data} = user

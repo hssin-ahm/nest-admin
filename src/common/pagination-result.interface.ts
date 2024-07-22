@@ -1,11 +1,9 @@
 export class PaginationResult{
+    data: any;
 
-data: any;
-
-meta: {
-    total: number,
-    page: number,
-    last_page: number
-};
-
+    meta: {
+        total: number,
+        page: number,
+        last_page: number
+    };
 }

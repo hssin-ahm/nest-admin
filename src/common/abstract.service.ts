@@ -13,12 +13,13 @@ export abstract class AbstractService {
         return this.repository.find({relations});
     }
 
-    async paginate(page = 1): Promise<PaginationResult>{
+    async paginate(page = 1, relations = []): Promise<PaginationResult>{
         const take = 10;
 
         const [data, total] = await this.repository.findAndCount({
             take,
-            skip: (page - 1) * take
+            skip: (page - 1) * take,
+            relations
         });
         return {
             data: data,

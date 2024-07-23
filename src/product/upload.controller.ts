@@ -16,7 +16,7 @@ export class UploadController {
             },
         }),
     }))
-    uploadFile(@UploadedFile() file : Express.Multer.File){
+    uploadFile(@UploadedFile() file){
         return {
             url: `http://192.168.107.141:3000/api/${file.path}`
         }

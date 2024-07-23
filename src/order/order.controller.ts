@@ -54,6 +54,11 @@ export class OrderController {
         return res.send(csv);
     }
 
+    @Get('chart')
+    async chart(){
+        return this.orderService.chat();
+    }
+
     @Post()
     async create(@Body() order: OrderCreateDto){
         const {orderItems, ...data} = order;

@@ -1,10 +1,11 @@
-import {Body, Controller, Get, Post, Query} from '@nestjs/common';
+import {Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UseInterceptors} from '@nestjs/common';
 import {OrderService} from "./order.service";
 import {OrderCreateDto} from "./models/order.create.dto";
 import {OrderItemsCreateDto} from "./models/orderItems.create.dto";
 import {OrderItemsService} from "./orderItems.service";
 
 @Controller()
+@UseInterceptors(ClassSerializerInterceptor)
 export class OrderController {
     constructor(private orderService: OrderService, private orderItemsService: OrderItemsService) {
     }

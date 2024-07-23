@@ -28,7 +28,7 @@ export class OrderService extends AbstractService{
 
     async chat(){
         return this.orderRepository.query(`
-            SELECT DATE_FORMAT(o.created_at, '%Y-%m-%d') AS date, SUM(i.price * i.quantity) AS sum
+            SELECT DATE_FORMAT(o.created_at, '%Y-%m-%d') AS date, COALESCE(SUM(i.price * i.quantity)) AS sum
             FROM orders o
             JOIN order_items i 
             WHERE o.id = i.order_id

@@ -30,9 +30,7 @@ export class OrderService extends AbstractService{
         return this.orderRepository.query(`
             SELECT *
             FROM orders o
-            JOIN order_items i ON o.id = i.order_id
-            GROUP BY date
-            ORDER BY date ASC;`
+            JOIN order_items i ON o.id = i.order_id;`
         );
     }
 }

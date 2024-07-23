@@ -17,10 +17,10 @@ export class OrderController {
     @Post('orders')
     async create(@Body() order: OrderCreateDto){
         const {orderItems, ...data} = order;
-        return this.orderService.create({
-            data,
+        return {
+            ...data,
             orderItems: orderItems.map(id=> ({id}))
-        });
+        };
     }
 
     @Post('orders/orderItem')

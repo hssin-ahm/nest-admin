@@ -24,7 +24,7 @@ export class OrderController {
         const parser = new Parser({
             fields: ['ID', 'Name', 'Email', 'Product Title', 'Price', 'Quantity']
         });
-        const orders = await this.orderService.all(['order_items']);
+        const orders = await this.orderService.all(['orderItems']);
 
         const json = [];
         orders.forEach((o: Order) => {

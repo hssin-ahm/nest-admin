@@ -28,10 +28,11 @@ export class OrderService extends AbstractService{
 
     async chat(){
         return this.orderRepository.query(`
-            SELECT DATE_FORMAT(o.created_at, '%Y-%m-%d') as date, sum(i.price* i.quantity) as sum
+            SELECT DATE_FORMAT(o.created_at, '%Y-%m-%d') AS date, SUM(i.price * i.quantity) AS sum
             FROM orders o
-            JOIN order_items i on o.id = i.order_id
-            GROUP BY date;`
-        )
+            LEFT JOIN order_items i ON o.id = i.order_id
+            GROUP BY date
+            ORDER BY date ASC;`
+        );
     }
 }

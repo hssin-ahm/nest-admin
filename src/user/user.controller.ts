@@ -62,7 +62,7 @@ export class UserController {
         return this.userService.findOne({id});
 
     }
-    @Put()
+    @Put('password')
     async updatePassword(
         @Req() request: Request,
         @Body('password') password: string,

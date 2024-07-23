@@ -34,8 +34,8 @@ export class OrderService extends AbstractService{
                   i.quantity,
                   (i.price * i.quantity) AS item_sum
             FROM orders o
-            JOIN order_items i ON o.id = i.order_id
-            GROUP BY date;`
+            JOIN order_items i ON o.id = i.order_id;
+            `
         );
     }
 }

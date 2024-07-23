@@ -28,7 +28,7 @@ export class OrderController {
         return this.orderItemsService.create(orderItem);
     }
     @Get('orders/orderItems')
-    async all(@Query('page') page= 1){
+    async allOrderItems(@Query('page') page= 1){
         return this.orderItemsService.paginate(page);
     }
 

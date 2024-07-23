@@ -4,7 +4,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import {Response} from "express";
 
-@Controller('upload')
+@Controller('uploads')
 export class UploadController {
     @Post()
     @UseInterceptors(FileInterceptor('image', {

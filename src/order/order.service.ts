@@ -20,6 +20,7 @@ export class OrderService extends AbstractService{
                 name: order.name,
                 total:order.total,
                 created_at: order.created_at,
+                order_items: order.orderItems
             })), meta
         }
     }

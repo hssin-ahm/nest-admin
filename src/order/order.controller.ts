@@ -8,6 +8,6 @@ export class OrderController {
 
     @Get('orders ')
     async all(@Query('page') page= 1){
-        return this.orderService.all(page);
+        return this.orderService.paginate(page, ['orderItems']);
     }
 }

@@ -12,8 +12,8 @@ export class OrderService extends AbstractService{
     }
 
 
-    async paginate(page = 1): Promise<PaginationResult>{
-        const {data, meta} = await super.paginate(page);
+    async paginate(page = 1, relations = []): Promise<PaginationResult>{
+        const {data, meta} = await super.paginate(page, relations);
         return {
             data: data.map((order :Order) =>({
                 id: order.id,

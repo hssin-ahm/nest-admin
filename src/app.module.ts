@@ -7,6 +7,7 @@ import { CommonModule } from './common/common.module';
 import {RoleModule} from "./role/role/role.module";
 import {PermissionModule} from "./permission/permission/permission.module";
 import {ProductModule} from "./product/product.module";
+import {OrderModule} from "./order/order.module";
 
 
 @Module({
@@ -17,7 +18,8 @@ import {ProductModule} from "./product/product.module";
     CommonModule,
     RoleModule,
     PermissionModule,
-    ProductModule
+    ProductModule,
+    OrderModule
   ]
 })
 export class AppModule {}

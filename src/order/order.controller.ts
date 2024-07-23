@@ -1,21 +1,60 @@
-import {Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UseInterceptors} from '@nestjs/common';
+import {Body, ClassSerializerInterceptor, Controller, Get, Post, Query, Res, UseInterceptors} from '@nestjs/common';
 import {OrderService} from "./order.service";
 import {OrderCreateDto} from "./models/order.create.dto";
 import {OrderItemsCreateDto} from "./models/orderItems.create.dto";
 import {OrderItemsService} from "./orderItems.service";
+import {Response} from "express";
+import {Parser} from "json2csv";
+import {Order} from "./order.entity";
+import {OrderItem} from "./orderItem.entity";
 
-@Controller()
+@Controller('orders')
 @UseInterceptors(ClassSerializerInterceptor)
 export class OrderController {
     constructor(private orderService: OrderService, private orderItemsService: OrderItemsService) {
     }
 
-    @Get('orders')
+    @Get()
     async all(@Query('page') page= 1){
         return this.orderService.paginate(page, ['orderItems']);
     }
 
-    @Post('orders')
+    @Post('export')
+    async export(@Res() res: Response){
+        const parser = new Parser({
+            fields: ['ID', 'Name', 'Email', 'Product Title', 'Price', 'Quantity']
+        });
+        const orders = await this.orderService.all(['order_items']);
+
+        const json = [];
+        orders.forEach((o: Order) => {
+            json.push({
+                ID: o.id,
+                Name: o.name,
+                Email: o.email,
+                'Product Title':'',
+                Price: '',
+                Quantity: ''
+            })
+            o.orderItems.forEach((oi: OrderItem) =>{
+                json.push({
+                    ID: '',
+                    Name: '',
+                    Email: '',
+                    'Product Title': oi.product_title,
+                    Price: oi.price,
+                    Quantity: oi.quantity
+                })
+            })
+        })
+
+        const csv = parser.parse(json);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('orders.csv');
+        return res.send(csv);
+    }
+
+    @Post()
     async create(@Body() order: OrderCreateDto){
         const {orderItems, ...data} = order;
         return this.orderService.create({
@@ -24,11 +63,11 @@ export class OrderController {
         });
     }
 
-    @Post('orders/orderItem')
+    @Post('orderItem')
     async createOrderItems(@Body() orderItem: OrderItemsCreateDto){
         return this.orderItemsService.create(orderItem);
     }
-    @Get('orders/orderItems')
+    @Get('orderItems')
     async allOrderItems(@Query('page') page= 1){
         return this.orderItemsService.paginate(page);
     }

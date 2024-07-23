@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('upload')
 export class UploadController {
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(FileInterceptor('image'))
     uploadFile(@UploadedFile() file){
         console.log(file)
     }

@@ -38,9 +38,7 @@ export class OrderService extends AbstractService{
             ON
                 o.id = i.order_id
             GROUP BY
-                date
-            ORDER BY
-                date ASC;
+                sum;
             `
         );
     }

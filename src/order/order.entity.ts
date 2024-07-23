@@ -24,4 +24,9 @@ export class Order{
     get name(): string{
         return `${this.first_name} ${this.last_name}`;
     }
+
+    @Expose()
+    get total(): number{
+        return this.orderItems.reduce((sum, i)=> sum + i.quantity * i.price,0)
+    }
 }

@@ -1,7 +1,9 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
 import {PermissionService} from "../../permission/permission/permission.service";
 import {HasPermission} from "./has-permission.decorator";
+import {AuthGuard} from "../../auth/auth.guard";
 
+@UseGuards(AuthGuard)
 @Controller('permissions')
 export class PermissionController {
 

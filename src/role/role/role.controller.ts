@@ -10,6 +10,7 @@ export class RoleController {
     }
 
     @Get()
+    @HasPermission('roles')
     async all(){
         return this.roleService.all(['permissions']);
     }
@@ -34,6 +35,7 @@ export class RoleController {
     }
 
     @Put(':id')
+    @HasPermission('roles')
     async update(
         @Param('id') id: number,
         @Body('name') name: string,
@@ -50,6 +52,7 @@ export class RoleController {
     }
 
     @Delete(':id')
+    @HasPermission('roles')
     async delete(
         @Param('id') id: number
     ){

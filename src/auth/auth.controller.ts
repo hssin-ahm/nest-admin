@@ -41,7 +41,7 @@ constructor(
       last_name: data.last_name,
       email: data.email,
       password: hash,
-      role: {id: 1}
+      role: {id: 4}
     });
   }
   @Post("login")

@@ -4,18 +4,19 @@ import {UserCreateDto} from "../../user/models/user.create.dto";
 import {HasPermission} from "../../permission/permission/has-permission.decorator";
 
 @Controller('roles')
-@HasPermission('roles')
 export class RoleController {
 
     constructor(private roleService: RoleService) {
     }
 
     @Get()
+    @HasPermission('roles')
     async all(){
         return this.roleService.all(['permissions']);
     }
 
     @Post()
+    @HasPermission('roles')
     async create(
         @Body('name') name: string,
         @Body('permissions') ids: number[]
@@ -28,11 +29,13 @@ export class RoleController {
 
 
     @Get(':id')
+    @HasPermission('roles')
     async get(@Param('id') id: number){
         return this.roleService.findOne({id}, ['permissions']);
     }
 
     @Put(':id')
+    @HasPermission('roles')
     async update(
         @Param('id') id: number,
         @Body('name') name: string,
@@ -49,6 +52,7 @@ export class RoleController {
     }
 
     @Delete(':id')
+    @HasPermission('roles')
     async delete(
         @Param('id') id: number
     ){

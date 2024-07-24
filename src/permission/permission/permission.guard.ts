@@ -5,6 +5,7 @@ import {AuthService} from "../../auth/auth.service";
 import {UserService} from "../../user/user.service";
 import {RoleService} from "../../role/role/role.service";
 import {User} from "../../user/models/user.entity";
+import {Role} from "../../role/role/role.entity";
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -25,10 +26,9 @@ export class PermissionGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const id = await this.authService.userId(request);
     const user: User = await this.userService.findOne({id}, ['role']);
-    const role = await this.roleService.findOne({id: user.role.id}, ['permissions']);
+    const role: Role = await this.roleService.findOne({id: user.role.id}, ['permissions']);
 
-    console.log(role)
-    console.log(access)
-    return true;
+
+    return role.permissions.some(p => p.name === access);
   }
 }

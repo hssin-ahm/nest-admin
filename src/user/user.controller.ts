@@ -31,12 +31,13 @@ export class UserController {
     ) {
     }
     @Get()
-    @HasPermission('view_users')
+    @HasPermission('users')
     async all(@Query('page') page: number = 1): Promise<PaginationResult>{
         return await this.userService.paginate(page);
     }
 
     @Post()
+    @HasPermission('users')
     async create(@Body() body: UserCreateDto): Promise<User>{
         const password = this.hashedPassword('1234');;
 
@@ -50,6 +51,7 @@ export class UserController {
     }
 
     @Get(':id')
+    @HasPermission('users')
     async get(@Param('id') id: number){
         return this.userService.findOne({id});
     }
@@ -85,6 +87,7 @@ export class UserController {
     }
 
     @Put(':id')
+    @HasPermission('users')
     async update(
         @Param('id') id: number,
         @Body() body: UserUpdateDto
@@ -95,6 +98,7 @@ export class UserController {
     }
 
     @Delete(':id')
+    @HasPermission('users')
     async delete(
         @Param('id') id: number
     ){

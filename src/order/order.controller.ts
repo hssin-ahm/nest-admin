@@ -7,6 +7,7 @@ import {Response} from "express";
 import {Parser} from "json2csv";
 import {Order} from "./order.entity";
 import {OrderItem} from "./orderItem.entity";
+import {HasPermission} from "../permission/permission/has-permission.decorator";
 
 @Controller('orders')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -15,11 +16,13 @@ export class OrderController {
     }
 
     @Get()
+    @HasPermission('orders')
     async all(@Query('page') page= 1){
         return this.orderService.paginate(page, ['orderItems']);
     }
 
     @Post('export')
+    @HasPermission('orders')
     async export(@Res() res: Response){
         const parser = new Parser({
             fields: ['ID', 'Name', 'Email', 'Product Title', 'Price', 'Quantity']
@@ -55,11 +58,13 @@ export class OrderController {
     }
 
     @Get('chart')
+    @HasPermission('orders')
     async chart(){
         return this.orderService.chat();
     }
 
     @Post()
+    @HasPermission('orders')
     async create(@Body() order: OrderCreateDto){
         const {orderItems, ...data} = order;
         return this.orderService.create({
@@ -69,10 +74,12 @@ export class OrderController {
     }
 
     @Post('orderItem')
+    @HasPermission('orders')
     async createOrderItems(@Body() orderItem: OrderItemsCreateDto){
         return this.orderItemsService.create(orderItem);
     }
     @Get('orderItems')
+    @HasPermission('orders')
     async allOrderItems(@Query('page') page= 1){
         return this.orderItemsService.paginate(page);
     }

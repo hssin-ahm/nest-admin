@@ -18,6 +18,7 @@ import {AuthService} from "../auth/auth.service";
 import {UserUpdateDto} from "./models/user.update.dto";
 import {Request} from "express";
 import {PaginationResult} from "../common/pagination-result.interface";
+import {HasPermission} from "../permission/permission/has-permission.decorator";
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,6 +31,7 @@ export class UserController {
     ) {
     }
     @Get()
+    @HasPermission('view_users')
     async all(@Query('page') page: number = 1): Promise<PaginationResult>{
         return await this.userService.paginate(page);
     }

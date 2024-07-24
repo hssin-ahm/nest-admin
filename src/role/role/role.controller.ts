@@ -10,7 +10,7 @@ export class RoleController {
 
     @Get()
     async all(){
-        return this.roleService.all();
+        return this.roleService.all(['permissions']);
     }
 
     @Post()

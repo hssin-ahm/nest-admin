@@ -1,6 +1,5 @@
 import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
 import {PermissionService} from "../../permission/permission/permission.service";
-import {HasPermission} from "./has-permission.decorator";
 import {AuthGuard} from "../../auth/auth.guard";
 
 @UseGuards(AuthGuard)
@@ -11,7 +10,6 @@ export class PermissionController {
     }
 
     @Get()
-    @HasPermission('view_permissions')
     async all(){
         return this.permissionService.all();
     }

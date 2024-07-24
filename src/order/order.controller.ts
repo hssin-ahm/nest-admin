@@ -1,14 +1,4 @@
-import {
-    Body,
-    ClassSerializerInterceptor,
-    Controller, Delete,
-    Get, Param,
-    Post,
-    Put,
-    Query,
-    Res,
-    UseInterceptors
-} from '@nestjs/common';
+import {Body, ClassSerializerInterceptor, Controller, Get, Post, Query, Res, UseInterceptors} from '@nestjs/common';
 import {OrderService} from "./order.service";
 import {OrderCreateDto} from "./models/order.create.dto";
 import {OrderItemsCreateDto} from "./models/orderItems.create.dto";
@@ -26,7 +16,7 @@ export class OrderController {
     }
 
     @Get()
-
+    @HasPermission('orders')
     async all(@Query('page') page= 1){
         return this.orderService.paginate(page, ['orderItems']);
     }
@@ -74,7 +64,7 @@ export class OrderController {
     }
 
     @Post()
-
+    @HasPermission('orders')
     async create(@Body() order: OrderCreateDto){
         const {orderItems, ...data} = order;
         return this.orderService.create({
@@ -93,11 +83,5 @@ export class OrderController {
     async allOrderItems(@Query('page') page= 1){
         return this.orderItemsService.paginate(page);
     }
-
-    @Delete(':id')
-    async deleteOrder(@Param('id') id: number){
-        return this.orderService.delete(id);
-    }
-
 
 }

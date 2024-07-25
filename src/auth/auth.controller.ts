@@ -37,7 +37,7 @@ constructor(
   }
 
     const hash = await bcrypt.hash(data.password, saltOrRounds);
-    const {password, ...data} = await this.userService.create({
+    const {password, ...user} = await this.userService.create({
       first_name: data.first_name,
       last_name: data.last_name,
       email: data.email,
@@ -45,7 +45,7 @@ constructor(
       role: {id: 4}
     });
 
-    return data;
+    return {...user};
 
   }
   @Post("login")

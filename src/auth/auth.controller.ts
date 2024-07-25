@@ -16,6 +16,7 @@ import { RegisterDto } from './models/register.dto';
 import {JwtService} from "@nestjs/jwt";
 import {AuthGuard} from "./auth.guard";
 import {AuthService} from "./auth.service";
+import {User} from "../user/models/user.entity";
 
 const saltOrRounds = 10;
 
@@ -36,13 +37,16 @@ constructor(
   }
 
     const hash = await bcrypt.hash(data.password, saltOrRounds);
-    return this.userService.create({
+    const {password, ...data} = await this.userService.create({
       first_name: data.first_name,
       last_name: data.last_name,
       email: data.email,
       password: hash,
       role: {id: 4}
     });
+
+    return data;
+
   }
   @Post("login")
   async login(

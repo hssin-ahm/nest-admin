@@ -65,7 +65,7 @@ constructor(
 
     const jwt = await this.jwtService.signAsync({ id: user.id });
 
-    response.cookie('jwt', jwt, { httpOnly: true, secure: isProduction, sameSite: 'lax' });
+    response.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'lax' });
     return user;
   }
 

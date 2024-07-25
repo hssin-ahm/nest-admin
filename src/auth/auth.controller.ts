@@ -70,7 +70,6 @@ constructor(
   }
 
   @Get('user')
-  @UseGuards(AuthGuard)
   async user(@Req() request: Request) {
 
     const userId = await this.authService.userId(request);
